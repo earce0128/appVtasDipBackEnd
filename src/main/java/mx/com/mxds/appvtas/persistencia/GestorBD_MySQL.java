@@ -2,6 +2,7 @@ package mx.com.mxds.appvtas.persistencia;
 
 import mx.com.mxds.appvtas.entidades.Persona;
 import mx.com.mxds.appvtas.servicios.IGestorBD;
+import mx.com.mxds.appvtas.servicios.ILogPersona;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,11 @@ import java.util.List;
 public class GestorBD_MySQL implements IGestorBD {
     private final static Logger log = LoggerFactory.getLogger(GestorBD_MySQL.class); ;
     private final DataSource ds;
+    private final ILogPersona logP;
 
-    public GestorBD_MySQL(DataSource ds) {
+    public GestorBD_MySQL(DataSource ds, ILogPersona logP) {
         log.debug("GestorBD_MySQL.GestorBD_MySQL");
+        this.logP = logP;
         this.ds = ds;
     }
 
@@ -161,11 +164,17 @@ public class GestorBD_MySQL implements IGestorBD {
                         Date fechaNacimiento = rs.getDate("fecha_nacimiento");
                         String nombre = rs.getString("nombre");
                         String direccion = rs.getString("direccion");
+                        Persona p = new Persona(id,nombre,direccion,fechaNacimiento.toLocalDate());
 
-                        return new Persona(id,nombre,direccion,fechaNacimiento.toLocalDate());
+                        // Guardando la operación para la auditoría - éxito
+                        this.logP.guardarOperacion("LECTURA_X_ID",p);
+                        return p;
                     }
-                    else
+                    else {
+                        // Guardando la operación para la auditoría - falla
+                        this.logP.guardarOperacion("LECTURA_FALLIDA_X_ID",new Persona(id,null,null,null));
                         return null;
+                    }
                 }
             }
         }
