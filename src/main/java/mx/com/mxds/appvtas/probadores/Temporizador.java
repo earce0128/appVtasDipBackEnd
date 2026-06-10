@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class Temporizador implements CommandLineRunner {
     private static final int PAUSA_SEGUNDOS = 30;
     private long contador = 0;

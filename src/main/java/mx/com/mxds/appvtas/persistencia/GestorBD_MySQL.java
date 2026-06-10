@@ -4,6 +4,7 @@ import mx.com.mxds.appvtas.entidades.Persona;
 import mx.com.mxds.appvtas.servicios.IGestorBD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class GestorBD_MySQL implements IGestorBD {
     private final static Logger log = LoggerFactory.getLogger(GestorBD_MySQL.class); ;
     private final DataSource ds;

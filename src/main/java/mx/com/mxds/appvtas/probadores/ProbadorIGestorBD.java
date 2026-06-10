@@ -1,5 +1,7 @@
 package mx.com.mxds.appvtas.probadores;
 
+import mx.com.mxds.appvtas.entidades.Persona;
+import mx.com.mxds.appvtas.servicios.IGestorBD;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +12,10 @@ import org.springframework.stereotype.Component;
 public class ProbadorIGestorBD implements CommandLineRunner {
     private final static Logger log = LoggerFactory.getLogger(ProbadorIGestorBD.class);
 
-    public ProbadorIGestorBD() {
+    private final IGestorBD gestorBD;
+
+    public ProbadorIGestorBD(IGestorBD gestorBD) {
+        this.gestorBD = gestorBD;
         log.info("Se invocó al constructor de ProbadorIGestorBD");
     }
 
@@ -19,7 +24,9 @@ public class ProbadorIGestorBD implements CommandLineRunner {
     }
 
     @Override
-    public void run(String @NonNull ... args) {
+    public void run(String @NonNull ... args) throws Exception {
         this.saludar();
+        Persona per = this.gestorBD.leerPersonaXID(1);
+        log.info("Se ha leido a la persona con id = {} : {}", per.getIdPersona(), per);
     }
 }
