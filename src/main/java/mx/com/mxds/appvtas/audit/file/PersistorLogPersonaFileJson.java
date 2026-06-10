@@ -1,29 +1,33 @@
 package mx.com.mxds.appvtas.audit.file;
 
-import mx.com.mxds.appvtas.audit.IPersistorLogPersona;
 import org.slf4j.Logger;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Primary
 @Component
-public class PersistorLogPersonaFile implements IPersistorLogPersona {
+public class PersistorLogPersonaFileJson extends PersistorLogPersonaFile {
     @Override
     public void guardarOperaciones(Logger log, List<AuditorOperPersonaFile.Operacion> operaciones) {
-        log.info("Salvando log de operaciones en .txt ...");
-        final String nombreArchivo = generarNombreArchivo();
+        log.info("Salvando log de operaciones en .json ...");
+        final String nombreArchivo = this.generarNombreArchivo();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(nombreArchivo))) {
+            writer.printf("{ \"operaciones\":[%n");
             for (int i = 0; i < operaciones.size(); i++) {
+                if(i>0)
+                    writer.printf(",%n");
                 AuditorOperPersonaFile.Operacion op = operaciones.get(i);
                 int folio = i + 1; // El folio es el índice + 1
-                writer.printf("Folio:%5d, Id:%5d, Tipo:%s%n", folio, op.id(), op.tipo());
+                writer.printf("   {%n    \"folio\":%d, \"id\":%d, \"tipo\":\"%s\"%n   }",
+                        folio, op.id(), op.tipo());
             }
+            writer.printf("%n]}");
             log.info("Operaciones guardadas en archivo: {}",nombreArchivo);
         }
         catch (IOException e) {
@@ -31,14 +35,8 @@ public class PersistorLogPersonaFile implements IPersistorLogPersona {
         }
     }
 
-    protected String generarNombreArchivo() {
-        LocalDateTime ahora = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
-        String timestamp = ahora.format(formatter);
-        return "operaciones_" + timestamp + getExtensionArchivo();
-    }
-
+    @Override
     protected String getExtensionArchivo() {
-        return ".txt";
+        return ".json";
     }
 }
