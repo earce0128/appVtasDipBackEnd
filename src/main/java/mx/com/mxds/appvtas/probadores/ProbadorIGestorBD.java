@@ -1,5 +1,6 @@
 package mx.com.mxds.appvtas.probadores;
 
+import jakarta.annotation.PostConstruct;
 import mx.com.mxds.appvtas.entidades.Persona;
 import mx.com.mxds.appvtas.servicios.IGestorBD;
 import mx.com.mxds.appvtas.servicios.ILogPersona;
@@ -22,6 +23,11 @@ public class ProbadorIGestorBD implements CommandLineRunner {
         this.gestorBD = gestorBD;
         this.auditorPersona = auditorPersona;
         log.info("Se invocó al constructor de ProbadorIGestorBD");
+    }
+
+    @PostConstruct
+    public void reportarFinConstruccionBean(){
+        log.info("Spring ha terminado de construir este bean " + this.hashCode());
     }
 
     public void saludar() {
