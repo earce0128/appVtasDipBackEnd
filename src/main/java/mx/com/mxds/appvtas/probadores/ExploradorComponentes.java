@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 @Component
 public class ExploradorComponentes implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(ExploradorComponentes.class);
+
+    @Value("${mxds.com.saludo:No hay un saludo}")
+    private String saludo;
 
     @Autowired
     ApplicationContext ctxSpring;
@@ -39,6 +43,8 @@ public class ExploradorComponentes implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         explorarApplicationContext();
+
+        log.info("@Value: {}",saludo);
 
         log.info("Hay {} objetos inyectados ",objetos.size());
         objetos.stream()
