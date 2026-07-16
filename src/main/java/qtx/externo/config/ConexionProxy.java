@@ -3,7 +3,7 @@ package qtx.externo.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @ConfigurationProperties(prefix="proxy")
 public class ConexionProxy {
     private String hostname;

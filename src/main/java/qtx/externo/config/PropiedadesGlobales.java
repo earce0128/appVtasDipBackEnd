@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @PropertySource("classpath:propiedadesMXD.properties")
 @ConfigurationProperties
 public class PropiedadesGlobales {

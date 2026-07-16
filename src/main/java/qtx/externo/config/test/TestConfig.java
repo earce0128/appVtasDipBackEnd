@@ -10,7 +10,7 @@ import qtx.externo.config.ConexionProxy;
 import qtx.externo.config.PropEnvironment;
 import qtx.externo.config.PropiedadesGlobales;
 
-@Component
+//@Component
 public class TestConfig implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(TestConfig.class);

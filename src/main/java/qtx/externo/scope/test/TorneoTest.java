@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import qtx.externo.scope.core.Torneo;
 import qtx.externo.scope.core.TorneoColision;
 
-@Component
+//@Component
 public class TorneoTest implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(TorneoTest.class);

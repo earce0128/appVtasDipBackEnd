@@ -15,7 +15,7 @@ import java.util.List;
 
 @Component
 public class GestorBD_MySQL implements IGestorBD {
-    private final static Logger log = LoggerFactory.getLogger(GestorBD_MySQL.class); ;
+    private final static Logger log = LoggerFactory.getLogger(GestorBD_MySQL.class);
     private final DataSource ds;
     private final ILogPersona logP;
 
@@ -26,12 +26,7 @@ public class GestorBD_MySQL implements IGestorBD {
     }
 
     public Connection getConexionBD() throws SQLException {
-        try {
-           return this.ds.getConnection();
-        }
-        catch (SQLException e) {
-            throw e;
-        }
+        return this.ds.getConnection();
     }
 
     public void desplegarPersonasConNombreyFecNac() throws SQLException {
@@ -125,8 +120,7 @@ public class GestorBD_MySQL implements IGestorBD {
                 pst.setString(2,persona.getNombre());
                 pst.setString(3, persona.getDireccion());
                 pst.setDate(4, Date.valueOf(persona.getFechaNacimiento()));
-                int nInserts = pst.executeUpdate();
-                return nInserts;
+                return pst.executeUpdate();
             }
         }
 
